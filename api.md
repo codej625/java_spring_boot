@@ -82,15 +82,6 @@ public class ApiPublicController {
 ```java
 public class SystemUtil {
 
-  public static boolean isWindows() {
-    String osType = System.getProperty("os.name");
-    if (osType.startsWith("Windows")) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   public static String getClientIpAddr(HttpServletRequest request) {
     String ip = request.getHeader("X-Forwarded-For");
     if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -113,15 +104,6 @@ public class SystemUtil {
 
   public static String getClientAgent(HttpServletRequest request) {
     return request.getHeader("User-Agent");
-  }
-
-  public static String getServerIpAddr() {
-    try {
-      InetAddress inet = InetAddress.getLocalHost();
-      return inet.getHostAddress();
-    } catch (UnknownHostException e) {
-      return "{ip}}";
-    }
   }
 }
 
