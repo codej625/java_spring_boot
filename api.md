@@ -9,8 +9,8 @@
 @RequestMapping(value = "/{path}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiPublicController {
 
-	@Autowired ThreadPoolTaskExecutor	threadPoolTaskExecutor;
-	@Autowired ApiUtil	apiUtil;
+  @Autowired ThreadPoolTaskExecutor threadPoolTaskExecutor;
+  @Autowired ApiUtil apiUtil;
 
   @CrossOrigin
   @PostMapping(value = "{url}")
@@ -46,33 +46,33 @@ public class ApiPublicController {
     /* Thread */
     threadPoolTaskExecutor.execute(new ProxyApiHandler(testDTO));
     
-    return RESULT_STATUS_TRUE; /* HashMap<String, Object>	RESULT_STATUS_TRUE; */
+    return RESULT_STATUS_TRUE; /* HashMap<String, Object> RESULT_STATUS_TRUE; */
   }
 
   private class ProxyApiHandler implements Runnable {
 
-		private testDTO recordDO;
+    private testDTO recordDO;
 
-		public ProxyApiHandler(testDTO recordDO) {
-	    this.recordDO = recordDO;
-		}
+    public ProxyApiHandler(testDTO recordDO) {
+      this.recordDO = recordDO;
+    }
 		
-		@Override
+    @Override
     public void run() {
 	    
-      Map<String, Object> reqBody = new HashMap<>();
-      reqBody.put("name", recordDO.getName());
-      reqBody.put("email", recordDO.getEmail());
-      reqBody.put("reqTime", recordDO.getReqTime());
-      reqBody.put("device", recordDO.getDevice());
+      Map<String, Object> requestBody = new HashMap<>();
+      requestBody.put("name", recordDO.getName());
+      requestBody.put("email", recordDO.getEmail());
+      requestBody.put("reqTime", recordDO.getReqTime());
+      requestBody.put("device", recordDO.getDevice());
 
       try {
-        apiUtil.send(reqBody);
+        apiUtil.send(requestBody);
       } catch (Exception e) {
-        log.error(e.toString());
+        log.error("API error => {}", e.toString());
       }
     }
-	}
+  }
 }
 ```
 
@@ -133,13 +133,16 @@ public class ApiUtil {
 
   @Autowired RestTemplate restTemplate;
 
-	public ResponseEntity<String> send(Map<String, Object> requestBody) throws Exception {
+    public ResponseEntity<String> send(Map<String, Object> requestBody) throws Exception {
+    /* Request header setup */
     HttpHeaders headers = new HttpHeaders();
+//  headers.set("Authorization", "token");
     headers.setContentType(MediaType.APPLICATION_JSON);
+    /* Create an HttpEntity with headers and request body data */
     HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
-		ResponseEntity<String> ret = restTemplate.exchange(PROXY_URL, HttpMethod.GET, request, String.class);
-    
+    ResponseEntity<String> ret = restTemplate.exchange(PROXY_URL, HttpMethod.GET, request, String.class);
+//  ResponseEntity<String> ret = restTemplate.exchange(PROXY_URL, HttpMethod.POST, request, String.class);
     return ret;
   }
 }
