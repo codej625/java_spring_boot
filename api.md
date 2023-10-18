@@ -115,6 +115,7 @@ public class ApiUtil {
 
   @Autowired RestTemplate restTemplate;
 
+//  1) body 
     public ResponseEntity<String> send(Map<String, Object> requestBody) throws Exception {
     /* Request header setup */
     HttpHeaders headers = new HttpHeaders();
@@ -126,6 +127,28 @@ public class ApiUtil {
     ResponseEntity<String> ret = restTemplate.exchange(PROXY_URL, HttpMethod.GET, request, String.class);
 //  ResponseEntity<String> ret = restTemplate.exchange(PROXY_URL, HttpMethod.POST, request, String.class);
     return ret;
+  }
+//  2) parameter
+    public String send(Map<String, Object> requestBody) throws Exception {
+      log.debug(">> KiwoomApiUtil send method start >>");
+    
+      /* Request header setup */
+      HttpHeaders headers = new HttpHeaders();
+//    headers.set("Authorization", "token");
+      headers.setContentType(MediaType.APPLICATION_JSON);
+
+      /* Create an HttpEntity with headers and parameters */
+      MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+      params.add("name", (String) requestBody.get("name"));
+      params.add("email", (String) requestBody.get("email"));
+      HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(params, headers);
+    
+      ResponseEntity<String> responseEntity = restTemplate.postForEntity(PROXY_URL, requestEntity, String.class);
+
+      /* Response result */
+      String responseBody = responseEntity.getBody();
+    
+    return responseBody;
   }
 }
 ```
