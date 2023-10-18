@@ -83,23 +83,22 @@ public class ApiPublicController {
 public class SystemUtil {
 
   public static String getClientIpAddr(HttpServletRequest request) {
-    String ip = request.getHeader("X-Forwarded-For");
-    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-      ip = request.getHeader("Proxy-Client-IP");
+    String[] headersToCheck = {
+      "X-Forwarded-For",
+      "Proxy-Client-IP",
+      "WL-Proxy-Client-IP",
+      "HTTP_CLIENT_IP",
+      "HTTP_X_FORWARDED_FOR"
+    };
+    /* 모든 헤더를 검사 */
+    for (String header : headersToCheck) {
+      String ip = request.getHeader(header);
+      if (ip != null && ip.length() > 0 && !"unknown".equalsIgnoreCase(ip)) {
+        return ip;
+      }
     }
-    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-      ip = request.getHeader("WL-Proxy-Client-IP");
-    }
-    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-      ip = request.getHeader("HTTP_CLIENT_IP");
-    }
-    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-      ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-    }
-    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-      ip = request.getRemoteAddr();
-    }
-    return ip;
+    /* 모든 헤더에서 IP 주소를 찾지 못한 경우 기본적인 원격 IP 주소를 반환 */
+    return request.getRemoteAddr();
   }
 
   /* 이번 예제에서는 사용하지 않음 */	
