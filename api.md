@@ -116,7 +116,8 @@ public class ApiUtil {
   @Autowired RestTemplate restTemplate;
 
 //  1) body 
-    public ResponseEntity<String> send(Map<String, Object> requestBody) throws Exception {
+  public ResponseEntity<String> send(Map<String, Object> requestBody) throws Exception {
+    log.debug(">> send method start >>");
     /* Request header setup */
     HttpHeaders headers = new HttpHeaders();
 //  headers.set("Authorization", "token");
@@ -126,11 +127,12 @@ public class ApiUtil {
 
     ResponseEntity<String> ret = restTemplate.exchange(PROXY_URL, HttpMethod.GET, request, String.class);
 //  ResponseEntity<String> ret = restTemplate.exchange(PROXY_URL, HttpMethod.POST, request, String.class);
+
     return ret;
   }
 //  2) parameter
     public String send(Map<String, Object> requestBody) throws Exception {
-      log.debug(">> KiwoomApiUtil send method start >>");
+      log.debug(">> send method start >>");
     
       /* Request header setup */
       HttpHeaders headers = new HttpHeaders();
