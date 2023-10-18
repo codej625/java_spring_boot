@@ -102,6 +102,7 @@ public class SystemUtil {
     return ip;
   }
 
+  /* 이번 예제에서는 사용하지 않음 */	
   public static String getClientAgent(HttpServletRequest request) {
     return request.getHeader("User-Agent");
   }
