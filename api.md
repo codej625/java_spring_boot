@@ -115,9 +115,10 @@ public class ApiUtil {
 
   @Autowired RestTemplate restTemplate;
 
-//  1) body 
+// 1) body 
   public ResponseEntity<String> send(Map<String, Object> requestBody) throws Exception {
     log.debug(">> send method start >>");
+
     /* Request header setup */
     HttpHeaders headers = new HttpHeaders();
 //  headers.set("Authorization", "token");
@@ -130,26 +131,26 @@ public class ApiUtil {
 
     return ret;
   }
-//  2) parameter
-    public String send(Map<String, Object> requestBody) throws Exception {
-      log.debug(">> send method start >>");
-    
-      /* Request header setup */
-      HttpHeaders headers = new HttpHeaders();
-//    headers.set("Authorization", "token");
-      headers.setContentType(MediaType.APPLICATION_JSON);
+// 2) parameter
+  public String send(Map<String, Object> requestBody) throws Exception {
+    log.debug(">> send method start >>");
 
-      /* Create an HttpEntity with headers and parameters */
-      MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-      params.add("name", (String) requestBody.get("name"));
-      params.add("email", (String) requestBody.get("email"));
-      HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(params, headers);
-    
-      ResponseEntity<String> responseEntity = restTemplate.postForEntity(PROXY_URL, requestEntity, String.class);
+    /* Request header setup */
+    HttpHeaders headers = new HttpHeaders();
+//  headers.set("Authorization", "token");
+    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-      /* Response result */
-      String responseBody = responseEntity.getBody();
-    
+    /* Create an HttpEntity with headers and parameters */
+    MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+    params.add("name", (String) requestBody.get("name"));
+    params.add("email", (String) requestBody.get("email"));
+    HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(params, headers);
+
+    ResponseEntity<String> responseEntity = restTemplate.postForEntity(PROXY_URL, requestEntity, String.class);
+
+    /* Response result */
+    String responseBody = responseEntity.getBody();
+
     return responseBody;
   }
 }
