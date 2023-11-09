@@ -33,7 +33,7 @@
 
 4. 패키지 명명 규칙
 ```
-패키지명은 모두 소문자로 작성하며, 일반적으로 역도메인 이름을 역으로 사용 한다. ex) com.example.myapp.
+패키지명은 모두 소문자로 작성하며, 일반적으로 역도메인 이름을 역으로 사용 한다. ex) com.example.myapp
 ```
 
 5. 클래스 파일과 디렉토리 구조
@@ -79,4 +79,11 @@ ex) script.js, utility-functions.js
 4. 리소스 버전 관리
 ```
 파일 업데이트 시 브라우저 캐시 문제를 피하기 위해 파일 이름에 버전 번호를 포함할 수 있다. ex) styles-v1.0.css
+```
+
+5. 프로젝트 패키지 명명 규칙
+```
+1) com.company.folder ex) com.naver.myapp
+2) kr.co.company.project ex) kr.co.naver.firstproject
+3) kr.co.company.platform.project ex) kr.co.naver.eclipse.firstproject
 ```
