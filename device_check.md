@@ -8,7 +8,7 @@ dependencies {
   // 기존 의존성들...
 
   // Spring Mobile 의존성 추가
-  implementation 'org.springframework.mobile:spring-mobile-device:2.0.0.RELEASE'
+  implementation 'org.springframework.mobile:spring-mobile-device:1.1.3.RELEASE'
 }
 ```
 
