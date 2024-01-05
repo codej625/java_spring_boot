@@ -76,12 +76,18 @@ JavaScript 파일 확장자는 .js를 사용합니다.
 ex) script.js, utility-functions.js
 ```
 
-4. 리소스 버전 관리
+4. image 파일 명명 규칙
+```
+image 파일명은 소문자로 작성하며, 네이밍의 조합은 '형태_의미_(순서)_상태'을 기본 순서로 사용한다.
+ex) btn_cancle_01_off.gif
+```
+
+5. 리소스 버전 관리
 ```
 파일 업데이트 시 브라우저 캐시 문제를 피하기 위해 파일 이름에 버전 번호를 포함할 수 있다. ex) styles-v1.0.css
 ```
 
-5. 프로젝트 패키지 명명 규칙
+6. 프로젝트 패키지 명명 규칙
 ```
 1) com.company.folder ex) com.naver.myapp
 2) kr.co.company.project ex) kr.co.naver.firstproject
