@@ -1,0 +1,27 @@
+server:
+  ## server port ##
+  port: 8080
+
+spring:
+  ## view ##
+  thymeleaf:
+    cache: false
+    enabled: true
+    encoding: UTF-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+  ## datasource ##
+  datasource:
+    url: jdbc:postgresql://localhost:5432/data
+    username: codej625
+    password: '0625'
+    driver-class-name: org.postgresql.Driver
+
+logging:
+  ## log ##
+  level:
+    org:
+      mybatis: DEBUG
+      springframework:
+        web: INFO
