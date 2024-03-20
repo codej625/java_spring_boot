@@ -9,8 +9,14 @@
 @RequestMapping(value = "/{path}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiPublicController {
 
-  @Autowired ThreadPoolTaskExecutor threadPoolTaskExecutor;
-  @Autowired ApiUtil apiUtil;
+  private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
+  private final ApiUtil apiUtil;
+
+  @Autowired
+  public YourClass(ThreadPoolTaskExecutor threadPoolTaskExecutor, ApiUtil apiUtil) {
+    this.threadPoolTaskExecutor = threadPoolTaskExecutor;
+    this.apiUtil = apiUtil;
+  }
 
   @CrossOrigin
   @PostMapping(value = "{url}")
