@@ -1,4 +1,4 @@
-# 인텔리제이에서 jdk11을 사용해서 프로젝트를 만들어보자.
+# Intellij를 사용해서 Spring Boot Project의 jdk level을 11으로 바꿔보자.
 
 <br /><br />
 
