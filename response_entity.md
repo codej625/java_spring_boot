@@ -109,15 +109,15 @@ HttpStatus를 사용하여 상태 코드를 담은 ResponseEntity를 생성.
 ```
 스프링의 HttpStatus는 HTTP 스펙에 정의된 여러 가지 상태 코드를 모두 포함하고 있다.
 
-HttpStatus.OK: 200 상태 코드. 요청이 성공적으로 처리되었음을 나타낸다.
-HttpStatus.CREATED: 201 상태 코드. 요청이 성공적으로 처리되었고 새로운 리소스가 생성되었음을 나타낸다.
-HttpStatus.NO_CONTENT: 204 상태 코드. 요청이 성공적으로 처리되었지만 응답 본문에 내용이 없음을 나타낸다.
-HttpStatus.BAD_REQUEST: 400 상태 코드. 클라이언트의 요청이 잘못되었음을 나타낸다.
-HttpStatus.UNAUTHORIZED: 401 상태 코드. 요청이 인증되지 않았음을 나타낸다.
-HttpStatus.FORBIDDEN: 403 상태 코드. 요청이 거부되었음을 나타낸다.
-HttpStatus.NOT_FOUND: 404 상태 코드. 요청한 리소스를 찾을 수 없음을 나타낸다.
-HttpStatus.INTERNAL_SERVER_ERROR: 500 상태 코드. 서버 내부 오류가 발생했음을 나타낸다.
-HttpStatus.SERVICE_UNAVAILABLE: 503 상태 코드. 서버가 일시적으로 요청을 처리할 수 없음을 나타낸다.
+HttpStatus.OK -> 200 상태 코드. 요청이 성공적으로 처리되었음을 나타낸다.
+HttpStatus.CREATED -> 201 상태 코드. 요청이 성공적으로 처리되었고 새로운 리소스가 생성되었음을 나타낸다.
+HttpStatus.NO_CONTENT -> 204 상태 코드. 요청이 성공적으로 처리되었지만 응답 본문에 내용이 없음을 나타낸다.
+HttpStatus.BAD_REQUEST -> 400 상태 코드. 클라이언트의 요청이 잘못되었음을 나타낸다.
+HttpStatus.UNAUTHORIZED -> 401 상태 코드. 요청이 인증되지 않았음을 나타낸다.
+HttpStatus.FORBIDDEN -> 403 상태 코드. 요청이 거부되었음을 나타낸다.
+HttpStatus.NOT_FOUND -> 404 상태 코드. 요청한 리소스를 찾을 수 없음을 나타낸다.
+HttpStatus.INTERNAL_SERVER_ERROR -> 500 상태 코드. 서버 내부 오류가 발생했음을 나타낸다.
+HttpStatus.SERVICE_UNAVAILABLE -> 503 상태 코드. 서버가 일시적으로 요청을 처리할 수 없음을 나타낸다.
 ```
 
 <br /><br />
