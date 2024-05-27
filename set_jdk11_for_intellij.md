@@ -35,7 +35,7 @@ Language level 을 원하는 level로 변경한다.
 
 3. SDKs 변경
 ```
-좌측 메뉴에 SDKs를 선택한다.
+좌측 메뉴에 SDKs를 선택한다.
 원하는 JDK를 선택한다.
 ```
 
