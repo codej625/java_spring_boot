@@ -48,7 +48,10 @@ Settings...를 선택한다.
 
 Build, Execution, Deployment -> Build Tools -> Gradle 으로 이동한다.
 
-Gradle JVM에서 원하는 JDK 버전을 선택한다.
+Build and run using을 IntelliJ IDEA 으로 변경한다.
+그리고 밑에 Run tests using 또한 IntelliJ IDEA 으로 변경한다.
+
+마지막으로 Gradle JVM에서 원하는 JDK 버전을 선택한다.
 ```
 
 <br />
