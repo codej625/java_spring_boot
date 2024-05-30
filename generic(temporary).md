@@ -35,17 +35,18 @@
 /* 제네릭 클래스 */
 
 public class Box<T> {
-  private T content;
 
-  public Box(T content) {
+  private T content; /* 제네릭 필드 */
+
+  public Box(T content) { /* 제네릭 생성자 */
     this.content = content;
   }
 
-  public void setContent(T content) {
+  public void setContent(T content) { /* 제네릭 메서드(Setter) */
     this.content = content;
   }
 
-  public T getContent() {
+  public T getContent() { /* 제네릭 메서드(Getter) */
     return content;
   }
 }
