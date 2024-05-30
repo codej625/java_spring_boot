@@ -32,5 +32,36 @@
 
 2. 예시
 ```java
+/* 제네릭 클래스 */
 
+public class Box<T> {
+  private T content;
+
+  public Box(T content) {
+    this.content = content;
+  }
+
+  public void setContent(T content) {
+    this.content = content;
+  }
+
+  public T getContent() {
+    return content;
+  }
+}
+
+/* 사용 예시 */
+Box<String> stringBox = new Box<>("Hello");
+String content = stringBox.getContent(); /* "Hello" */
+```
+```
+Box 클래스는 제네릭 타입(T)을 사용하여 구현된다.
+이렇게 함으로써 Box 객체를 생성할 때 어떤 타입의 데이터를 저장할 지 결정할 수 있다.
+
+Box 클래스의 생성자는 T 타입의 매개변수를 받는다.
+= Box 객체를 생성할 때 데이터를 초기화할 수 있다.
+
+다이아몬드 연산자(<>)를 사용하여 Box 객체를 생성할 때,
+실제 타입 파라미터를 명시하지 않고도 컴파일러가 타입을 추론하게 된다.
+= new Box<>("Hello")는 컴파일러에 의해 new Box<String>("Hello")로 처리된다.
 ```
