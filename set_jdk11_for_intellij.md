@@ -77,4 +77,9 @@ plugins {
   id 'org.springframework.boot' version '2.7.10' <- JDK 버전이 11이라면 스프링 부트 버전을 2.7.10 정도로 낮춰야 한다.
   id 'io.spring.dependency-management' version '1.1.4'
 }
+
+...
+java {
+  sourceCompatibility = '11' <- JDK 버전 변경
+}
 ```
