@@ -55,6 +55,6 @@ com.example.application
 │       ├── vo
 │       │   └── OtherValueObject.java
 │       └── OtherBusinessLogic.java
-└── util
+└── utils
     └── SomeUtility.java
 ```
