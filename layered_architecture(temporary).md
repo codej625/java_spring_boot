@@ -11,37 +11,47 @@
 * 예시
 
 com.example.application
+├── aop
+│   └── LoggingAspect.java
+│
 ├── config
-│   ├── AppConfig.java
+│   ├── SecurityConfig.java
 │   └── DatabaseConfig.java
+│
 ├── controller
 │   ├── presentation
 │   │   └── PresentationController.java
 │   └── other
 │       └── OtherController.java
+│
 ├── common
 │   └── AdditionalDTO.java
+│
 ├── dto
 │   ├── request
 │   │   ├── presentation
 │   │   │   └── PresentationRequestDTO.java
 │   │   └── other
 │   │       └── OtherRequestDTO.java
+│   │
 │   ├── response
 │   │   ├── presentation
 │   │   │   └── PresentationResponseDTO.java
 │   │   └── other
 │   │       └── OtherResponseDTO.java
+│   │
 ├── service
 │   ├── presentation
 │   │   └── PresentationService.java
 │   └── other
 │       └── OtherService.java
+│
 ├── repository
 │   ├── presentation
 │   │   └── PresentationRepository.java
 │   └── other
 │       └── OtherRepository.java
+│
 ├── domain
 │   ├── presentation
 │   │   ├── entity
@@ -55,6 +65,7 @@ com.example.application
 │       ├── vo
 │       │   └── OtherValueObject.java
 │       └── OtherBusinessLogic.java
+│
 └── utils
     └── SomeUtility.java
 ```
