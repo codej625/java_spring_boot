@@ -1,4 +1,4 @@
-package site.codej625.layeredarchitecture.repository.repository2;
+package site.codej625.layeredarchitecture.repository.Repository2;
 
 public interface RepositoryInterface2 {
 }
