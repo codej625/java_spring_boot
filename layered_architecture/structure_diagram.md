@@ -3,9 +3,7 @@ src
 │
 ├── aop
 │   │ 
-│   ├── Logging.java
-│   │
-│   └── 
+│   └── Logging.java
 │
 │
 ├── common
@@ -17,9 +15,7 @@ src
 │ 
 ├── security
 │   │ 
-│   ├── SecurityConfig.java
-│   │
-│   └── 
+│   └──  SecurityConfig.java
 │  
 │
 ├── config
@@ -102,9 +98,9 @@ src
 │       └── ServiceInterface2.java
 │
 │
-└── utils
+└── util
     │ 
-    ├── Util1.java
+    ├──
     │
-    └── Util2.java
+    └──
 ```
