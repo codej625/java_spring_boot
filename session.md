@@ -3,6 +3,8 @@
 <br /><br />
 
 * 세션이란?
+---
+
 ```
 세션(Session)은 웹 애플리케이션에서 클라이언트와 서버 간의 상태를 유지하는 데 사용된다.
 HTTP 프로토콜은 기본적으로 상태를 유지하지 않는(stateless) 프로토콜이기 때문에,
@@ -17,47 +19,22 @@ HTTP 프로토콜은 기본적으로 상태를 유지하지 않는(stateless) �
 
 <br /><br /><br />
 
-* 예시
-```
-Intercepter를 사용해서 Session이 있을 때와 없을 때를 구별하는 로직을 만들어보자.
+* HttpSession 객체의 주요 메서드
+---
 
-Intercepter가 사용될 Path를 지정하고 config로 등록한다.
-```
-```java
-/* WebMvcConfig Class */ 
-
-@Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
-
-  @Override
-  public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(new SessionInterceptor())
-            .addPathPatterns("/*") /* 해당 패턴의 모든 요청에 Interceptor 적용 */
-            .excludePathPatterns("/login"); /* 로그인은 예외로 처리 */
-  }
-}
-```
+| 메서드 | 설명 |
+| --- | --- |
+| `setAttribute(String name, Object value)` | 세션에 객체를 저장합니다. |
+| `getAttribute(String name)` | 세션에서 객체를 가져옵니다. |
+| `removeAttribute(String name)` | 세션에서 객체를 제거합니다. |
+| `invalidate()` | 세션을 무효화하고 모든 바인딩된 객체를 제거합니다. |
 
 <br />
 
 ```
-
-세션이 있을 때와 없을 때의 처리 로직을 만든다.
-
-```
-```java
-public class SessionInterceptor implements HandlerInterceptor {
-
-  @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    /* 세션을 확인하고 세션이 없는 경우 리다이렉션 수행 */
-    if (request.getSession(false) == null) {
-      /* index 페이지로 리다이렉션 */
-      response.sendRedirect("/");
-
-      return false; /* 요청을 처리하지 않고 중단 */
-    }
-    return true; /* 요청을 계속 진행 */
-  }
-}
+위에 표에 있는 메서드들을 사용하여 세션에 데이터를 저장하고, 검색하고, 제거할 수 있다.
+이를 통해 사용자의 로그인 상태를 유지하거나,
+사용자별로 데이터를 관리하는 등의 작업을 수행할 수 있다.
+스프링 부트는 이러한 `HttpSession` 객체를 통해 세션 관리를 유연하게 구성할 수 있는 기능을 제공한다.
+이를 통해 안전하고 효율적으로 세션을 관리할 수 있다.
 ```
