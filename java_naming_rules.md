@@ -116,7 +116,6 @@ Package name
 <br />
 
 1. 폴더 명명 규칙
----
 
 ```
 src/main/resources/static/ 디렉토리는 정적 웹 자산(이미지, CSS, JavaScript 등)을 저장하는 곳이다.
@@ -130,7 +129,6 @@ ex) my-css-folder, javascript-files
 <br />
 
 2. CSS 파일 명명 규칙
----
 
 ```
 CSS 파일명은 소문자로 작성하며, 단어 사이를 하이픈(-)으로 구분 한다.
@@ -140,7 +138,6 @@ ex) styles.css, main-style.css
 <br />
 
 3. JavaScript 파일 명명 규칙
----
 
 ```
 JavaScript 파일명은 소문자로 작성하며, 단어 사이를 카멜 케이스(CamelCase)나 밑줄(_)로 구분할 수 있다.
@@ -151,7 +148,6 @@ ex) script.js, utility-functions.js
 <br />
 
 4. Image 파일 명명 규칙
----
 
 ```
 image 파일명은 소문자로 작성하며, 네이밍의 조합은 '형태_의미_(순서)_상태'을 기본 순서로 사용한다.
@@ -160,8 +156,16 @@ ex) btn_cancle_01_off.gif
 
 <br />
 
-5. 리소스 버전 관리
----
+5. HTML 파일 명명 규칙
+
+```
+HTML 파일의 이름은 소문자로 작성하며, 여러 단어를 포함하는 경우, 단어 사이에 하이픈을 사용하여 가독성을 높일 수 있다.
+ex) my-html-file.html
+```
+
+<br />
+
+6. 리소스 버전 관리
 
 ```
 파일 업데이트 시 브라우저 캐시 문제를 피하기 위해 파일 이름에 버전 번호를 포함할 수 있다. ex) styles-v1.0.css
