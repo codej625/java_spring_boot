@@ -29,7 +29,7 @@ Package name
 -> ex) com.codej625.myproject
 ```
 
-<br />
+<br /><br /><br />
 
 2. 프로젝트 명명 규칙
 ---
@@ -48,7 +48,7 @@ Package name
 6) 대문자로 시작을 권장 ex) TestApplication
 ```
 
-<br />
+<br /><br /><br />
 
 3. 관례적 명명 규칙
 ---
@@ -90,7 +90,7 @@ Package name
 -> ex) MAX_VALUE
 ```
 
-<br />
+<br /><br /><br />
 
 4. 클래스 파일과 디렉토리 구조
 ---
@@ -100,7 +100,7 @@ Package name
 패키지 구조와 디렉토리 구조는 일치해야 한다.
 ```
 
-<br />
+<br /><br /><br />
 
 5. 의미 있는 이름 사용
 ---
