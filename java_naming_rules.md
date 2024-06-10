@@ -122,8 +122,8 @@ src/main/resources/static/ 디렉토리는 정적 웹 자산(이미지, CSS, Jav
 폴더 및 디렉토리 명은 소문자를 사용하고, 스페이스나 특수 문자를 피해야 한다.
 ex) static/css/, static/js/
 
-여러 단어를 사용할 때 각 단어 사이에 하이픈(-)을 사용하여 구분 한다.
-ex) my-css-folder, javascript-files
+여러 단어를 사용할 때 각 단어 사이에 언더바를 사용하여 구분 한다.
+ex) my_css_folder, javascript_files
 ```
 
 <br />
@@ -131,8 +131,8 @@ ex) my-css-folder, javascript-files
 2. CSS 파일 명명 규칙
 
 ```
-CSS 파일명은 소문자로 작성하며, 단어 사이를 하이픈(-)으로 구분 한다.
-ex) styles.css, main-style.css
+CSS 파일명은 소문자로 작성하며, 단어 사이를 언더바로 구분 한다.
+ex) styles.css, main_style.css
 ```
 
 <br />
@@ -142,7 +142,7 @@ ex) styles.css, main-style.css
 ```
 JavaScript 파일명은 소문자로 작성하며, 단어 사이를 카멜 케이스(CamelCase)나 밑줄(_)로 구분할 수 있다.
 JavaScript 파일 확장자는 .js를 사용한다.
-ex) script.js, utility-functions.js
+ex) script.js, utility_functions.js
 ```
 
 <br />
@@ -159,8 +159,8 @@ ex) btn_cancle_01_off.gif
 5. HTML 파일 명명 규칙
 
 ```
-HTML 파일의 이름은 소문자로 작성하며, 여러 단어를 포함하는 경우, 단어 사이에 하이픈을 사용하여 가독성을 높일 수 있다.
-ex) my-html-file.html
+HTML 파일의 이름은 소문자로 작성하며, 여러 단어를 포함하는 경우, 단어 사이에 언더바를 사용하여 가독성을 높일 수 있다.
+ex) my_html_file.html
 ```
 
 <br />
