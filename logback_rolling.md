@@ -1,4 +1,4 @@
-# 로그 라이브러리 logback에 대
+# 로그 라이브러리 logback를 알아보자
 <br /><br />
 
 * logback 기본 개념
