@@ -1,8 +1,40 @@
-# 로그를 롤링 정책
-
+# 로그 라이브러리 logback에 대
 <br /><br />
 
-* 파일 설정
+* logback 기본 개념
+---
+
+1. Logger
+```
+로깅을 수행하는 주요 객체.
+로거는 이름을 가지며 주로 패키지 이름 또는 클래스 이름과 일치하게 설정한다.
+로거는 계층 구조를 가지는데 ROOT 로거는 모든 로거의 상위 로거이다.
+(로그 레벨 수준을 결정)
+```
+
+<br />
+
+2. Appender
+```
+로깅 이벤트를 특정 출력 대상으로 전송하는 구성 요소.
+쉽게 말해 로그 메세지가 출력할 대상을 결정한다고 할 수 있다.
+콘솔에 출력할지, 파일에 출력할지 등..
+
+각 로거는 하나 이상의 Appender에 연결될 수 있다.
+```
+
+<br />
+
+3. Layout
+```
+로깅 이벤트가 어떻게 포맷되어 출력될지 결정하는 구성 요소.
+사용자가 지정한 형식으로 로그 메세지를 변환한다는 것을 의미한다.
+예를 들어 자바에서 문자열 포맷팅과 비슷하다고 할 수 있다.
+```
+
+<br /><br /><br />
+
+* 로그 롤링 설정
 ---
 
 1. application.yaml
@@ -16,7 +48,7 @@ server:
 # Logback
 logging:
   # logback config 지정
-  config: classpath:logback-spring.xml
+  config: classpath:./static/config/logback-spring.xml
   file:
     # 로그가 저장 되는 path 지정
     path: logs
