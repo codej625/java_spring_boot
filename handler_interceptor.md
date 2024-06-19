@@ -68,11 +68,12 @@ public class SessionInterceptor implements HandlerInterceptor {
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     HttpSession session = request.getSession(false); // 세션이 없으면 null 반환
-    if (session == null || session.getAttribute({yourSessionAttribute}) == null) {
-      response.sendRedirect("/home");
-      return false; // 요청 진행 중단
+
+    if (session == null) {
+        response.sendRedirect("/home");
+        return false;
     }
-    return true; // 요청 진행 계속
+    return true;
   }
 }
 ```
@@ -107,6 +108,39 @@ public class WebMvcConfig implements WebMvcConfigurer {
             .excludePathPatterns("/lib/**")
             .excludePathPatterns("/config/**");
     }
+
+}
+```
+
+<br />
+
+3. Controller
+```java
+@Slf4j
+@RequestMapping(value = "/auth/")
+@Controller
+public class LoginController {
+
+  @PostMapping("/login")
+  @ResponseBody
+  public ResponseEntity<?> getLoginInfo(HttpServletRequest request) {
+    ...
+
+    HttpSession session = request.getSession();
+    session.setAttribute("object", "obj");
+
+    ...
+
+    return ResponseEntity.ok().body(result);
+  }
+
+  @PostMapping("/logout")
+  public String logout(HttpServletRequest request) {
+      HttpSession session = request.getSession(false);
+      if (session != null) session.invalidate(); // 세션 무효화
+
+      return "redirect:/login";
+  }
 
 }
 ```
