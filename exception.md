@@ -65,6 +65,22 @@ someDatabaseOperation()에서 SQLException이 발생하면,
 이때, 메서드 선언에 throws SQLException이 포함되어 있어 호출자는 이 예외를 처리해야 한다.
 ```
 
+<br />
+
+3. throw
+```
+throw는 예외를 강제로 발생시키는 구문이며,
+특정 조건이나 상황에서 프로그램에서 예외를 발생시켜야 할 때 사용된다.
+```
+```java
+public void checkAge(int age) {
+  if (age < 0) {
+    throw new Exception("Age cannot be negative");
+  }
+  ...
+}
+```
+
 <br /><br /><br />
 
 * 정리
