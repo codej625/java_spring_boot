@@ -49,6 +49,14 @@
 ---
 
 ```
+먼저, yaml 파일 이름을 정할 때는 나름의 규칙을 지켜야 한다.
+스프링에서는 application-{profile}.yaml을 통해 이들을 구분하고 활용할 수 있다.
+{profile}에 원하는 이름을 작성하면 된다.
+```
+
+<br /><br />
+
+```
 * Common
 
 application.yaml
@@ -71,62 +79,20 @@ application-prod.yaml
 
 <br /><br /><br />
 
-* 사용 예시
+* 운영 환경 분리하기
 ---
 
 ```yaml
-* application.yaml 예시
-
-# Server
-server:
-  # Port
-  port: 8080
-
-  # Session
-  servlet:
-    session:
-      timeout: 20m
-
-# Logback
-logging:
-  # logback config
-  config: classpath:./static/config/logback-spring.xml
-  file:
-    path: logs
+# application.yaml
 
 # Spring
 spring:
+  # Profile
+  profiles:
+    default: local
+
   application:
-    name: {name}
-
-  # View
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-    cache: false
-    mode: HTML
-    encoding: UTF-8
-    servlet:
-      content-type: text/html;charset=UTF-8
-
-  # Database
-  datasource:
-    url: jdbc:postgresql://localhost:5432/{database_name}
-    username: {user_name}
-    password: {user_pw}
-    driver-class-name: org.postgresql.Driver
-
-  # Jpa
-  jpa:
-    open-in-view: false
-  # database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      # 스키마를 삭제하고 다시 생성한다.
-      # ddl-auto: create
-      # 스키마를 변경하지 않는다.
-      # ddl-auto: none
-      # 스키마를 변경된 엔티티에 맞게 업데이트한다.
-      ddl-auto: update
+    name: web
 
   # Devtools
   devtools:
@@ -136,60 +102,62 @@ spring:
       enabled: true
 ```
 
-<br /><br />
-
-1. Local
 ```yaml
-# 일반적으로 작성한다.
+# application-local.yaml
 
-spring:
-  profiles:
-# 이런 식으로 프로파일을 추가할 필요는 없다.
+# Server
+server:
+  # Port
+  port: 8080
+```
+
+```yaml
+# application-dev.yaml
+
+# Server
+server:
+  # Port
+  port: 8081
+```
+
+```yaml
+# application-prod.yaml
+
+# Server
+server:
+  # Port
+  port: 8082
 ```
 
 <br /><br />
 
-2. Dev
-```yaml
-spring:
-  profiles:
-    active: dev
+```
+Spring Boot는 응용 프로그램이 시작될 때,
+다음 위치에서 application.properties 및 application.yaml 파일을 자동으로 찾아 로드한다.
+
+classpath:/
+classpath:/config/
+file:./
+file:./config/
 ```
 
-<br /><br />
-
-3. Pord
-```yaml
-spring:
-  profiles:
-    active: prod
-```
-
-<br /><br />
-
-4. 여러개 파일 Include 방법
-```yaml
-spring:
-  profiles:
-    include:
-      - profile1
-      - profile2
-```
 <br /><br /><br />
 
-* 실행 방법
+* Build 및 실행
 ---
 
 ```
-* 별다른 설정 없이 관련 프로파일을 적용시켜 jar파일 실행(권장 하지 않음) 
+// 빌드
 
-java -jar my-application.jar --spring.profiles.active=dev
+./gradlew clean build 
 ```
 
-<br /><br />
+<br />
 
 ```
-* 운영 환경별로 yaml을 나누고 build 시 프로파일을 선택한다.(권장)
+// jar 실행
 
-./gradlew clean bootjar -Pspring.profiles.active=dev
+java -jar {jarname}.jar --spring.profiles.active={Profile}
+
+// java -jar {jarname}.jar 이렇게만 실행 시키면 Defalut profile을 따른다.
 ```
