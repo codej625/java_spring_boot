@@ -7,6 +7,11 @@
 # Port
 server:
   port: 8080
+# Session
+  servlet:
+    session:
+      # 세션 유지 시간
+      timeout: 20m 
 
 # Logback
 logging:
@@ -21,6 +26,16 @@ spring:
   application:
     name: web
 
+  # Profile
+  profiles:
+    default: local
+
+  # 개별 프로파일 분리 시 사
+  profiles:
+    config:
+      activate:
+        on-profile: local
+
   # View
   thymeleaf:
     prefix: classpath:/templates/
@@ -33,15 +48,14 @@ spring:
 
   # Database
   datasource:
-    url: jdbc:postgresql://localhost:5432/{database_name}
+    url: {database_url}
     username: {admin_id}
     password: {admin_pw}
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: {driver}
 
   # Jpa
   jpa:
     open-in-view: false
-    # database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       # 스키마를 삭제하고 다시 생성한다.
       # ddl-auto: create
@@ -49,6 +63,11 @@ spring:
       ddl-auto: none
       # 스키마를 변경된 엔티티에 맞게 업데이트한다.
       # ddl-auto: update
+    # 쿼리 표시
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
   # Devtools
   devtools:
@@ -56,4 +75,9 @@ spring:
       enabled: true
     livereload:
       enabled: true
+```
+```
+* 프로파일 분리 jar 실행 시
+
+java -jar {jar_name.jar} --spring.profiles.active={profile}
 ```
