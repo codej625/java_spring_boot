@@ -7,7 +7,7 @@
 # Server
 server:
   # Port
-  port: 8088
+  port: {port}
 
   # Session
   servlet:
