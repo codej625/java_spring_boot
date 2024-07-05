@@ -25,27 +25,29 @@ private boolean resultTable(Map<String, String> params) {
     LocalTime newStartTime;
     LocalTime newEndTime;
 
-    List<RoomReserveInfoTable> resultTable;
+    List<{entity_name}> resultTable;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
 
     {
+        // 입력 시간을 Map에서 가져온다.
         String startTime = params.get("startTime");
         String endTime = params.get("endTime");
 
-
+        // 날짜 계산이 가능한 형태로 형 변환
         newStartTime = LocalTime.parse(startTime, formatter);
         newEndTime = LocalTime.parse(endTime, formatter);
 
         Long groupKey = Long.parseLong(params.get("groupKey"));
         Long roomKey = Long.parseLong(params.get("roomKey"));
 
+        // 특정 조건을 사용해서 테이블을 조회한다.
         resultTable = reservationRepository.findByGroupKeyAndRoomKey(groupKey, roomKey);
     }
 
     if (!resultTable.isEmpty()) {
 
-        for (RoomReserveInfoTable result : resultTable) {
+        for ({entity_name} result : resultTable) {
 
             LocalTime existingStartTime = LocalTime.parse(result.getStartTime(), formatter);
             LocalTime existingEndTime = LocalTime.parse(result.getEndTime(), formatter);
@@ -55,5 +57,11 @@ private boolean resultTable(Map<String, String> params) {
     }
 
     return true;
+}
+```
+```java
+@Repository
+public interface ReservationRepository extends JpaRepository<{entity_name}, Long> {
+    public List<{entity_name}> findByGroupKeyAndRoomKey(Long groupKey, Long roomKey);
 }
 ```
