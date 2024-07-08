@@ -16,15 +16,15 @@ server:
 
 # Spring
 spring:
-  # Profile
-  profiles:
-    config:
-      activate:
-        on-profile: local
+  # Profile(Option)
+  # profiles:
+  #   config:
+  #     activate:
+  #       on-profile: local
 
   # Profile(Default)
-  #   profiles:
-  #     default: local
+  profiles:
+    default: local
 
   application:
     name: {project_name}
@@ -70,9 +70,9 @@ spring:
 
   # Logback
   logging:
-  # logback config 지정
-  config: classpath:./static/config/logback-spring.xml
-  file:
-    # 로그가 저장 되는 path 지정
-    path: logs
+    # logback config 지정
+    config: classpath:./static/config/logback-spring.xml
+    file:
+      # 로그가 저장 되는 path 지정
+      path: logs
 ```
