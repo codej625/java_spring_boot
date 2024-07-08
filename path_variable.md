@@ -70,3 +70,8 @@ public ResponseEntity<User> getUserById(@PathVariable("id") String user){
   // ...   
 }
 ```
+
+```
+예시 -> @GetMapping ("/order/{id}") id의 값이 동적으로 계속 변하는 상황이라면,
+Method 선언 부분에 (@PathVariable("id") <- 이 부분을 반드시 명시해준다.)
+```
