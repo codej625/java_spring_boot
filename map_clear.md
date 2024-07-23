@@ -1,4 +1,4 @@
-# Map clear에 대해
+# Map clear
 
 <br /><br />
 
