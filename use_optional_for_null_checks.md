@@ -85,6 +85,21 @@ String dateOrDefault = optionalDate.orElse("defaultDate");
 
 <br />
 
+```java
+// 4번 예시
+
+boolean check = Optional.ofNullable(entity.getDate()).isPresent();
+
+if (check) {
+  // ... 로직
+}
+else {
+  // ... 로직
+}
+```
+
+<br />
+
 ```
 Optional.ofNullable() 메서드는 null이 아니면 해당 객체를 감싸서 Optional 객체를 반환하며,
 isPresent() 메서드는 Optional 객체가 값이 존재하는지를 체크한다.
