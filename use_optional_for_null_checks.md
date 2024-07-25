@@ -71,7 +71,12 @@ Optional<String> optionalDate = Optional.ofNullable(entity.getDate());
 
 // 값이 있을 때 처리
 optionalDate.ifPresent(date -> {
-    // name을 사용하는 로직
+  // date을 사용하는 로직
+});
+
+// 값이 없을 때 로직을 수행할수도 있다.
+Date date = optionalDate.orElseGet(() -> {
+  // ... 로직
 });
 
 // 값이 없을 때 기본값 설정
