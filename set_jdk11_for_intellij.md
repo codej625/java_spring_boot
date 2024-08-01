@@ -1,4 +1,4 @@
-# Intellij를 사용해서 Spring Boot Project의 jdk level을 11으로 바꿔보자.
+# Intellij를 사용해서 Spring Boot Project의 jdk level을 11으로 바꿔보자. (8버전도 해당)
 
 <br /><br />
 
@@ -74,8 +74,8 @@ build.gradle 파일을 열고,
 
 plugins {
   id 'java'
-  id 'org.springframework.boot' version '2.7.10' <- JDK 버전이 11이라면 스프링 부트 버전을 2.7.10 정도로 낮춰야 한다.
-  id 'io.spring.dependency-management' version '1.1.4'
+  id 'org.springframework.boot' version '2.7.18' <- GA 버전
+  // ...
 }
 
 ...
