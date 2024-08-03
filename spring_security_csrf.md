@@ -1,4 +1,4 @@
-# spring security에 기본 설정.
+# spring security CSRF 기본 설정.
 
 <br/><br/>
 
