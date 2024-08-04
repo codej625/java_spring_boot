@@ -134,7 +134,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    @Bean
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
