@@ -12,18 +12,12 @@ spring:
     servlet:
       content-type: text/html
   datasource:
-    url: jdbc:postgresql://localhost:5432/project
+    url: jdbc:postgresql://localhost:5432/dev
     username: codej625
     password: '0625'
     driver-class-name: org.postgresql.Driver
-
-mybatis:
-# type-aliases-package: com.yourcompany.yourproject.model
-  mapper-locations: classpath:mapper/**/*.xml
-
-logging:
-  level:
-    org:
-      springframework:
-        web: INFO
-      mybatis: DEBUG
+  jpa:
+    show-sql: true
+    database: postgresql
+    hibernate:
+      ddl-auto: create
