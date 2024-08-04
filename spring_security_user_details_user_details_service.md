@@ -24,7 +24,7 @@ Spring Security에서 유저의 정보를 불러오기 위해서 구현해야하
 
 <br /><br /><br />
 
-1. UserDetails 사용 예시
+1. UserDetails
 
 ```
 UserDetails 인터페이스는 Spring Security가 사용자 정보를 관리하는 핵심 인터페이스이다.
@@ -79,12 +79,13 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
 ```
 
 <br /><br /><br />
 
-2. UserDetailsService 사용 예시
+2. UserDetailsService
 
 ```
 Spring Security가 사용자 정보를 데이터베이스나,
@@ -92,59 +93,58 @@ Spring Security가 사용자 정보를 데이터베이스나,
 ```
 
 ```java
+@RequiredArgsConstructor
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    // 실제로는 여기에서 데이터베이스나 외부 저장소에서 사용자 정보를 가져옵니다.
+    private final UserRepository userRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 예제에서는 하드코딩으로 사용자 정보를 만듭니다.
-        if ("user".equals(username)) {
-            return new CustomUserDetails("user", "$2a$10$j5mEVvP41gRZREpueNn3B.xtZI6CgsQSwvWcPt3GZTbjDhw3F.CpW",
-                    List.of(() -> "ROLE_USER"));
-        } else {
-            throw new UsernameNotFoundException("User not found with username -> " + username);
-        }
+
+        User user = userRepository.findByUsername(username);
+
+        if (user == null) throw new UsernameNotFoundException("User not found -> " + username);
+
+        return new CustomUserDetails(
+            user.getUsername(),
+            user.getPassword(),
+            user.getAuthorities()
+        );
     }
+
 }
 ```
 
 <br /><br /><br />
 
-3. 시큐리티 Config 설정
+3. Security Config
 
 ```java
-@Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final UserDetailsService userDetailsService;
-
-    public SecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+@Configuration
+public class SecurityConfig {
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/public/**").permitAll()
+                .antMatchers("/api/register").permitAll() // 회원가입 테스트
+                .antMatchers("/index").permitAll() // 경로에 대해 모든 사용자 허용
+                .antMatchers("/all/**").permitAll() // all 하위 경로에 대해 모든 사용자 허용
+                .antMatchers("/user").hasAnyRole("USER") // USER 권한을 가진 사용자만 허용
+                .antMatchers("/test").hasAnyRole("USER", "ADMIN") // USER, ADMIN 권한을 가진 사용자만 허용
+                .antMatchers("/admin").hasAnyRole("ADMIN") // ADMIN 권한을 가진 사용자만 허용
                 .anyRequest().authenticated() // 나머지 요청은 인증 필요
+                .and()
+            .exceptionHandling()
+                .accessDeniedPage("/access-denied") // Access Denied 시 사용할 사용자 정의 페이지 URL 지정
                 .and()
             .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/home", true) // 로그인 성공 후 리다이렉트 URL
+                .failureUrl("/login?error=true") // 로그인 실패 시 리다이렉트 URL
                 .permitAll()
                 .and()
             .logout()
@@ -152,56 +152,135 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .httpBasic()
                 .and()
-            .csrf().disable() // CSRF 보안 기능 비활성화 (테스트 목적)
+            .csrf().disable(); // CSRF 보안 기능 비활성화 (테스트 목적)
+        return http.build();
     }
+
 }
 ```
 
+<br /><br /><br />
+
+4. User entity
+
+```java
+@Getter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String username;
+    private String password;
+    private String role;
+
+    @Builder
+    public User(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
+    }
+
+}
 ```
-* 설명
 
-SecurityConfig
-이 클래스는 WebSecurityConfigurerAdapter를 확장하여 스프링 시큐리티 설정을 구성한다.
+<br /><br /><br />
 
+4. User repository
 
-SecurityFilterChain 빈
-SecurityFilterChain을 반환하는 securityFilterChain 메서드를 정의한다.
-이 메서드는 HttpSecurity를 사용하여 스프링 시큐리티 필터 체인을 구성한다.
+```java
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
 
+    User findByUsername(String username);
 
-HttpSecurity
-http 객체를 사용하여 다양한 보안 설정을 구성한다.
+}
+```
 
+<br /><br /><br />
 
-authorizeRequests()
-요청에 대한 접근 제한을 설정.
+5. passwordEncoder
 
+```java
+@Configuration
+public class BCrypt {
 
-antMatchers()
-특정 URL 패턴에 대한 접근 권한을 설정.
+    @Bean
+    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
 
+}
+```
 
-authenticated()
-모든 요청은 인증된 사용자만 접근할 수 있도록 설정.
+<br /><br /><br />
 
+7. Controller
 
-formLogin()폼 기반 로그인 설정을 구성.
+```java
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/api")
+public class UserController {
 
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-loginPage()와 permitAll()
-사용자 지정 로그인 페이지 설정 및 로그인 페이지에 대한 접근 허용 설정을 구성.
+    @PostMapping("/register")
+    public void registerUser(@RequestBody User user) {
+        // 사용자 등록 테스트
+        userRepository.save(
+            User.builder()
+                .username(user.getUsername())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .role(user.getRole())
+                .build()
+        );
+    }
 
+}
 
-logout()
-로그아웃 설정을 구성.
+// View 관련
+@Controller
+public class ViewController {
 
+    @GetMapping("/login")
+    public String login() {
+        return "login"; // 로그인 페이지로 이동
+    }
 
-httpBasic()
-HTTP Basic 인증을 설정.
+    @GetMapping("/home")
+    public String home() {
+        return "home"; // 로그인 성공 / 실패 후 이동 페이지
+    }
 
+    @GetMapping("/session")
+    public String test() {
+        return "test"; // Session 테스트
+    }
 
-csrf().disable()
-CSRF(Cross-Site Request Forgery) 보안 기능을 비활성화한다. (테스트 목적)
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin"; // 로그인 성공 후 이동 페이지
+    }
+
+    @GetMapping("/user")
+    public String user() {
+        return "user"; // 로그인 성공 후 이동 페이지
+    }
+
+    @GetMapping("/access-denied")
+    public String err() {
+        return "/access_denied"; // 로그인 성공 후 이동 페이지
+    }
+
+}
 ```
 
 <br /><br />
@@ -217,7 +296,4 @@ UserDetails
 UserDetailsService
 사용자 정보를 제공하기 위해 필요한 인터페이스로,
 loadUserByUsername 메서드를 구현하여 사용자의 식별 정보(username)을 받아 해당 사용자의 UserDetails 객체를 반환한다.
-
-실제 애플리케이션에서는 데이터베이스나 LDAP 등을 통해 실제 사용자 정보를 조회하고
-UserDetails 객체를 구성하는 로직을 구현해야 한다.
 ```
