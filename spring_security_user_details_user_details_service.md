@@ -130,19 +130,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+    protected void configure(HttpSecurity http) throws Exception {
+        http
             .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/public/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 .and()
             .formLogin()
                 .loginPage("/login")
@@ -154,7 +153,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .httpBasic()
                 .and()
             .csrf().disable() // CSRF 보안 기능 비활성화 (테스트 목적)
-            .build();
     }
 }
 ```
