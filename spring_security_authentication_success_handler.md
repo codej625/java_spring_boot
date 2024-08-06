@@ -107,4 +107,17 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 6) AuthenticationManager는 UsernameAuthenticationToken을 AuthenticationFilter로 전달
 
 7) AuthenticationFilter는 전달받은 UsernameAuthenticationToken을 LoginSuccessHandler로 전송하고, SecurityContextHolder에 저장한다.
+
+
+* n개의 Filter가 존재한다.
+* Filter 아래 Manager 1 개가 존재한다.
+* Manager 아래 n’개의 Provider가 존재한다.
+* Provider를 통해 인증정보와 권한이 담긴 Authentication을 반환한다.
+* Spring Security는 기본적으로 세션 <-> 쿠키방식으로 인증한다.
+* 생성된 유저의 session은 인메모리 세션저장소인 SecurityContextHolder에 저장된다.
+
+* 정리
+모든 접근 주체는 Authentication 를 생성한다.
+이것은 SecurityContext 에 보관되고 사용된다.
+즉, security의 세션들은 내부 메모리(SecurityContextHolder)에 저장되고 필요 시 꺼내 사용한다.
 ```
