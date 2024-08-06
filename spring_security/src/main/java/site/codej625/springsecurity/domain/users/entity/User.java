@@ -36,4 +36,9 @@ public class User {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role));
     }
+
+    // 자바 9버전 이하 사용
+    // public Collection<? extends GrantedAuthority> getAuthorities() {
+    //     return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + authId));
+    // }
 }
