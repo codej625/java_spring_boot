@@ -21,6 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         if (user == null) throw new UsernameNotFoundException("User not found -> " + username);
 
+        // 스프링 시큐리티에서 사용하는 아이디, 비밀번호, 권한 값이다. 필드 커스텀 가능
         return new CustomUserDetails(
             user.getUsername(),
             user.getPassword(),
