@@ -92,25 +92,19 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 스프링 시큐리티에서 AuthenticationSuccessHandler 인터페이스를 구현한 클래스는,
 사용자가 성공적으로 인증된 후에 실행된다.
 
-1) 사용자가 로그인을 시도
-스프링 시큐리티는 설정된 인증 프로바이더(예: DaoAuthenticationProvider)를 통해 사용자 정보를 인증한다.
-(인증이 성공하면 Authentication 객체가 생성된다.)
+작동 순서를 알아보자.
 
+1) 사용자가 아이디, 비밀번호를 Form을 통해 전송
 
-2) AuthenticationSuccessHandler 호출
-인증이 성공하면 UsernamePasswordAuthenticationFilter는 SuccessfulAuthenticationEvent를 발생시킨다.
-이 이벤트는 AbstractAuthenticationProcessingFilter에서 처리되며,
-이 필터는 내부적으로 AuthenticationSuccessHandler의 구현체를 호출한다.
+2) AuthenticationFilter에서 UsernamePasswordAuthenticationToken을 생성하여 AuthenticationManager에게 전달
 
+3) AuthenticationManager는 등록된 AuthenticationProvider(들)을 조회하여 인증을 요구
 
-3) onAuthenticationSuccess 메서드 실행
-AuthenticationSuccessHandler를 구현한
-CustomAuthenticationSuccessHandler 클래스에서 오버라이드 된 onAuthenticationSuccess 메서드가 호출된다.
-이때 메서드 파라미터로는 다음과 같은 정보가 전달된다.
+4) AuthenticationProvider는 UserDetailsService를 통해 입력받은 아이디에 대한 사용자 정보를 DB에서 조회
 
-HttpServletRequest request: 사용자의 요청 정보를 담고 있는 객체
-HttpServletResponse response: 응답을 처리할 수 있는 객체
-Authentication authentication: 인증된 사용자의 정보를 담고 있는 객체
+5) 입력받은 비밀번호를 암호화하여 DB의 비밀번호와 매칭시켜, 일치하는 경우 인증된 UsernamePasswordAuthenticationToken을 생성하여 AuthenticationManager에 전달
 
-위의 객체를 갖고 onAuthenticationSuccess 메서드에서 추가적인 처리를 한다.
+6) AuthenticationManager는 UsernameAuthenticationToken을 AuthenticationFilter로 전달
+
+7) AuthenticationFilter는 전달받은 UsernameAuthenticationToken을 LoginSuccessHandler로 전송하고, SecurityContextHolder에 저장한다.
 ```
