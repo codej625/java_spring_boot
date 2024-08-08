@@ -67,7 +67,7 @@ public class SecurityConfig {
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final LoginMapper loginMapper;
+    private final LoginBusinessLogic loginBusinessLogic;
 
     @Override
     public void onAuthenticationSuccess
@@ -77,10 +77,24 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         Authentication authentication
     )
     throws IOException, ServletException {
-        // 로그인 성공 이후 로직 처리
-        loginMapper.updateUser(authentication.getName());
 
-        response.sendRedirect(request.getContextPath() + "/index");
+        String empId = authentication.getName(); // Origin ID
+        String encryptId = ""; // Encrypt ID
+
+        loginBusinessLogic.updateUserLastLog(empId); // 1) 로그인 성공 시 로그 업데이트
+
+        boolean checkPassword = loginBusinessLogic.checkPassword(empId); // 2-1) 초기 비밀번호 체크
+
+        // 2-2) 조건에 따른 세션 해제
+        if (!checkPassword) {
+            request.getSession().invalidate(); // 세션 해제
+            encryptId = loginBusinessLogic.encryptId(empId); // 아이디 암호화
+        }
+
+        // 3) Redirect Path 생성
+        String redirectUrl = loginBusinessLogic.redirectUrl(checkPassword, empId, encryptId);
+
+        response.sendRedirect(request.getContextPath() + redirectUrl);
     }
 
 }
