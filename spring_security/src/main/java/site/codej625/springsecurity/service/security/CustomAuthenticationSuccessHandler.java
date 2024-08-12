@@ -1,3 +1,5 @@
+package site.codej625.springsecurity.service.security;
+
 @RequiredArgsConstructor
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
