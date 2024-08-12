@@ -30,11 +30,11 @@ spring:
   profiles:
     default: local
 
-  # 개별 프로파일 분리 시 사
-  profiles:
-    config:
-      activate:
-        on-profile: local
+  # 개별 프로파일 분리 시 사용
+  # profiles:
+    # config:
+      # activate:
+        # on-profile: local
 
   # View
   thymeleaf:
@@ -75,7 +75,27 @@ spring:
       enabled: true
     livereload:
       enabled: true
+
+# 마이바티스 설정 
+# mybatis:
+  # type-aliases-package: com.enicom.portal.domain.login.dao.model
+  # config-location: classpath:mybatis/mybatis-config.xml
+  # mapper-locations: classpath:mappers/*.xml
 ```
+
+```xml
+<!-- 마이바티스 사용 시 mybatis-config.xml -->
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <!-- Model alias -->
+        <typeAlias alias="login" type="com.enicom.portal.domain.login.dao.model.Employee"/>
+        <typeAlias alias="as" type="com.enicom.portal.domain.as.dao.model.As"/>
+        <typeAlias alias="library" type="com.enicom.portal.domain.library.dao.model.Library"/>
+    </typeAliases>
+</configuration>
+```
+
 ```
 * 프로파일 분리 jar 실행 시
 
