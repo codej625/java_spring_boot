@@ -28,26 +28,27 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/img/**").permitAll() / 정적 리소스
-                .antMatchers("/as/**", "/account/**", "/login/**").permitAll() // 뷰 패키지
-                // API
+                // Pages
+                .antMatchers("/login").permitAll()
+                // Static Resource
+                .antMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                .antMatchers("/as/**", "/account/**", "/login/**").permitAll()
+                // Account Domain
                 .antMatchers("/account/change-password").permitAll()
                 .antMatchers("/account/check-username").permitAll()
                 .antMatchers("/account/reset-password").permitAll()
-
+                // Index or Home
                 .antMatchers("/index").hasAnyRole("system", "admin", "manage", "user", "distributor", "resigner")
-                .antMatchers("/login").permitAll()
-//                .antMatchers("/").hasRole("admin") // admin 권한을 가진 사용자만 허용
-//                .antMatchers("/").hasAnyRole("admin", "user") // USER, ADMIN 권한을 가진 사용자만 허용
+//                .antMatchers("/").hasRole("admin") // admin 권한만 허용
                 .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 .and()
             .exceptionHandling()
-                .accessDeniedPage("/access-denied") // Access Denied 시 사용할 사용자 정의 페이지 URL 지정
+                .accessDeniedPage("/access-denied") // Access Denied 시 사용할 사용자 정의 페이지 URL
                 .and()
             .formLogin()
                 .loginPage("/login")
-                .successHandler(customAuthenticationSuccessHandler)
-                .failureHandler(loginFailHandler) // 로그인 실패 시 처리하는 핸들러 등록.
+                .successHandler(customAuthenticationSuccessHandler) // 로그인 성공 시 처리 핸들러
+                .failureHandler(loginFailHandler) // 로그인 실패 시 처리 핸들러
                 .permitAll()
                 .and()
             .logout()
