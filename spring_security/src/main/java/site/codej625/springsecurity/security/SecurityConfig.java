@@ -11,7 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-    
+
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final  LoginFailHandler loginFailHandler;
 
@@ -19,21 +19,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/test/**").permitAll() // Static resource 허용
-                .antMatchers("/css/**").permitAll() // Static resource 허용
-                .antMatchers("/js/**").permitAll() // Static resource 허용
-                .antMatchers("/img/**").permitAll() // Static resource 허용
-                .antMatchers("/as/**").permitAll() // Static resource 허용
-                .antMatchers("/img/**").permitAll() // Static resource 허용
-                // account 테스트 start
-                .antMatchers("/index").hasRole("resigner") // 비밀번호 변경 테스트
-                .antMatchers("/change-password").permitAll()
+                .antMatchers("/css/**", "/js/**", "/img/**").permitAll() / 정적 리소스
+                .antMatchers("/as/**", "/account/**", "/login/**").permitAll() // 뷰 패키지
+                // API
+                .antMatchers("/account/change-password").permitAll()
                 .antMatchers("/account/check-username").permitAll()
                 .antMatchers("/account/reset-password").permitAll()
-                // account 테스트 end
+
+                .antMatchers("/index").hasAnyRole("system", "admin", "manage", "user", "distributor", "resigner")
                 .antMatchers("/login").permitAll()
-//                .antMatchers("/").hasRole("ADMIN") // ADMIN 권한을 가진 사용자만 허용
-//                .antMatchers("/").hasAnyRole("USER", "ADMIN") // USER, ADMIN 권한을 가진 사용자만 허용
+//                .antMatchers("/").hasRole("admin") // admin 권한을 가진 사용자만 허용
+//                .antMatchers("/").hasAnyRole("admin", "user") // USER, ADMIN 권한을 가진 사용자만 허용
                 .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 .and()
             .exceptionHandling()
@@ -42,7 +38,7 @@ public class SecurityConfig {
             .formLogin()
                 .loginPage("/login")
                 .successHandler(customAuthenticationSuccessHandler)
-                .failureHandler(loginFailHandler) //로그인 실패 시 처리하는 핸들러 등록.
+                .failureHandler(loginFailHandler) // 로그인 실패 시 처리하는 핸들러 등록.
                 .permitAll()
                 .and()
             .logout()
