@@ -128,7 +128,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 * Manager 아래 n’개의 Provider가 존재한다.
 * Provider를 통해 인증정보와 권한이 담긴 Authentication을 반환한다.
 * Spring Security는 기본적으로 세션 <-> 쿠키방식으로 인증한다.
-* 생성된 유저의 session은 인메모리 세션저장소인 SecurityContextHolder에 저장된다.
+* 생성된 유저의 session은 세션저장소인 SecurityContextHolder에 저장된다.
 
 * 정리
 모든 접근 주체는 Authentication 를 생성한다.
