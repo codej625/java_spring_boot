@@ -1,0 +1,75 @@
+# Server
+server:
+  # Port
+  port: 8081
+
+  # Session
+  servlet:
+    session:
+      timeout: 5m
+
+# Log
+logging:
+  # logback config 지정
+  config: classpath:static/config/logback-spring.xml
+  file:
+    # 로그가 저장 되는 path 지정
+    path: logs
+
+# Spring
+spring:
+  application:
+    name: web
+
+# Devtools
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+  value:
+    cloud:
+      key: test
+
+    # WebsocketPort (Dev, Prod 공통)
+    webSocketPort: 8082 # 웹 소켓 연결 포트
+
+    # Env
+    dev: true # true(Dev), false(Prod)
+
+  # View
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html;charset=UTF-8
+
+  # Database
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ncmik
+    username: postgres
+    password: nicom123.
+    driver-class-name: org.postgresql.Driver
+
+  # Jpa
+  jpa:
+    open-in-view: false
+    hibernate:
+      # 스키마를 삭제하고 다시 생성한다.
+      # ddl-auto: create
+      # 스키마를 변경하지 않는다.
+      # ddl-auto: none
+      # 스키마를 변경된 엔티티에 맞게 업데이트한다.
+      ddl-auto: update
+
+    # show-sql: true
+    # properties:
+      # hibernate:
+      # format_sql=true:
+
+# DEFAULT ADMIN ACCOUNT
+  # ncmik / admin12345.
