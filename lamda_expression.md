@@ -1,4 +1,4 @@
-# Lamda & Stream
+# Lamda expression
 
 <br /><br />
 
@@ -82,3 +82,15 @@ public class Main {
 | `Predicate<T>`        | `java.util.function`   | 하나의 인자를 받아 boolean 값을 반환          | `boolean test(T t)`              |
 | `UnaryOperator<T>`    | `java.util.function`   | 하나의 인자를 받아 같은 타입을 반환            | `T apply(T t)`                  |
 | `BinaryOperator<T>`   | `java.util.function`   | 두 개의 같은 타입 인자를 받아 같은 타입을 반환 | `T apply(T t1, T t2)`            |
+
+<br /><br />
+
+```
+* Tip
+
+제네릭(Generic) 으로 사용되는 타입
+
+T -> Type의 약어로 파라미터 타입
+U -> 는 흔히 두 번째 파라미터를 뜻함.
+R은 반환 타입을 뜻한다.
+```
