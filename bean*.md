@@ -2,6 +2,9 @@
 
 <br /><br />
 
+* 빈(Bean)
+---
+
 ```
 스프링 프레임워크(Spring Framework)에서 빈(Bean)은
 애플리케이션 컨텍스트(Application Context)에서 관리되는 객체를 의미한다.
@@ -62,4 +65,56 @@ InitializingBean과 DisposableBean 인터페이스를 구현할 수 있다.
 
 @Autowired 어노테이션을 사용하여 의존성을 주입할 수 있으며,
 @Qualifier를 사용하여 특정 빈을 지정할 수도 있다.
+```
+
+<br /><br /><br />
+
+* Bean 설정 예시
+---
+
+<br />
+
+1. @Component 어노테이션 사용하기
+
+```
+Bean으로 관리하고 싶은 클래스를 
+@Component 어노테이션으로 표시할 수 있다.
+```
+
+<br />
+
+```java
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyService {
+    public void serve() {
+        System.out.println("Service is serving...");
+    }
+}
+```
+
+<br /><br />
+
+2. @Configuration과 @Bean 어노테이션 사용하기
+
+```
+@Bean 어노테이션을 사용하여,
+메서드 단위로 Bean을 정의할 수 있다.
+```
+
+<br />
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+    
+    @Bean
+    public MyService myService() {
+        return new MyService();
+    }
+}
 ```
