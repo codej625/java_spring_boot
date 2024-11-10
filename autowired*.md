@@ -80,6 +80,8 @@ Bean 어노테이션은 메서드가 빈을 생성하고 컨테이너에 추가�
 @Component와 @Bean의 차이?
 ```
 
+<br /><br />
+
 ```
 @Component 어노테이션은 클래스 레벨에서 사용되며, 
 해당 "클래스"를 스프링 빈으로 등록하려는 것을 나타낸다.
@@ -92,7 +94,6 @@ Bean 어노테이션은 메서드가 빈을 생성하고 컨테이너에 추가�
 <br />
 
 ```java
-ex)
 @Component
 public class EncryptionUtil {
 
@@ -103,7 +104,7 @@ public class EncryptionUtil {
 }
 ```
 
-<br />
+<br /><br />
 
 ```
 @Bean 어노테이션은 메서드 레벨에서 사용되며,
@@ -116,7 +117,6 @@ public class EncryptionUtil {
 <br />
 
 ```java
-ex)
 @Configuration
 public class AppConfig {
     
@@ -127,14 +127,15 @@ public class AppConfig {
 }
 ```
 
-<br />
+<br /><br />
 
 ```
 따라서, @Component는 스프링에게 해당 클래스를 스캔하여 자동으로 빈으로 등록하라고 알리는 데 사용되고,
-@Bean은 개발자가 직접 메서드를 통해 빈을 등록하는 데 사용된다.
+@Bean은 @Configuration 어노테이션과 함께 사용하여,
+개발자가 직접 메서드를 통해 빈을 등록하는 데 사용된다.
 ```
 
-<br />
+<br /><br />
 
 ```
 마지막으로 @Bean으로 등록한 메서드 혹은 @Component로 등록한 Class에 속한 메서드를 사용할 때
@@ -144,4 +145,20 @@ Lombok을 활용할 수 있다.
 final 키워드(상수)가 붙은 필드 값에 자동으로 생성자를 만들어 준다.
 
 (@Autowired를 사용하지 않고 의존성 주입)
+```
+
+<br />
+
+```java
+@Component
+@RequiredArgsConstructor  // final로 선언된 필드에 대해 생성자를 자동으로 생성.
+public class MyService {
+
+  private final MyRepository myRepository; // final 필드 선언.
+
+  public void doSomething() {
+    // myRepository를 사용하여 작업을 수행
+    myRepository.saveData("example");
+  }
+}
 ```
