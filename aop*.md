@@ -1,52 +1,46 @@
 # AOP(Aspect-Oriented Programming)
 
-<br /><br />
+<br />
+<br />
 
 * AOP
 ---
 
 ```
-AOP란 Aspect Oriented Programming의 약자로 관점 지향 프로그래밍이라고 한다.
-(여기서 Aspect(관점)이란 흩어진 관심사들을 하나로 모듈화한 것을 의미한다.)
-
-OOP에서는 주요 관심사에 따라 클래스를 나눈다.
-
-이 클래스들은 보통 SRP(Single Responsibility Principle)에 따라 하나의 책임만을 갖게 설계된다.
-하지만 클래스를 설계하다 보면 로깅, 보안, 트랜잭션 등 여러 클래스에서 공통으로 사용하는 부가 기능들이 생긴다.
-
-이들은 주요 비즈니스 로직은 아니지만,
-반복적으로 여러 곳에서 쓰이는 데 이를 흩어진 관심사(Cross Cutting Concerns)라고 한다.
-
-AOP 없이 흩어진 관심사를 처리하면 다음과 같은 문제가 발생한다.
-여러 곳에서 반복적인 코드를 작성해야 하고,
-코드가 변경될 경우 여러 곳에 가서 수정이 필요하다.
-
-주요 비즈니스 로직과 부가 기능이 한 곳에 섞여 가독성이 떨어진다.
-
-따라서 흩어진 관심사를 별도의 클래스로 모듈화하여 위의 문제들을 해결하고,
-결과적으로 OOP를 더욱 잘 지킬 수 있도록 도움을 주는 것이 AOP이다.
+AOP는 관점 지향 프로그래밍이라고 불리며,
+애플리케이션의 핵심적인 비즈니스 로직에서 공통적으로 발생하는 관심사(Cross-cutting Concerns)를 분리하여,
+관리하는 프로그래밍 패러다임이다.
 ```
 
-<br /><br /><br />
+<br />
+<br />
+<br />
+<br />
 
-* AOP의 주요 개념
----
+1. AOP의 주요 개념
 
-| 개념      | 설명                                                                                      |
-|-----------|-------------------------------------------------------------------------------------------|
-| **Aspect (측면)** | 프로그램의 관심사 또는 기능을 모듈화한 것입니다. 예: 로깅, 보안, 트랜잭션 관리 등.   |
-| **Join Point (조인 포인트)** | 코드 실행 중 Aspect가 적용될 수 있는 특정 지점입니다. 예: 메소드 호출, 객체 생성, 필드 접근 등. |
-| **Advice (어드바이스)** | 조인 포인트에서 실행될 코드입니다. 적용 방식: 메소드 실행 전(before), 메소드 실행 후(after), 메소드 실행 중(execute) 등. |
-| **Pointcut (포인트컷)** | 어느 조인 포인트에서 Advice를 적용할지를 결정하는 표현식입니다. 예: 특정 메소드, 클래스, 패턴 등. |
-| **Weaving (위빙)** | Aspect를 기존의 코드에 적용하는 과정입니다. 위빙 시점: 컴파일 시점, 로드 시점, 런타임 시점 등. |
+<br />
 
-<br /><br /><br />
+| 개념 | 설명 | 레스토랑 비유 | 스프링 부트 용어 |
+|---|---|---|---|
+| **AOP (관점 지향 프로그래밍)** | 핵심 로직에서 공통 관심사를 분리하여 관리하는 프로그래밍 패러다임 | 공통 업무 (로그, 보안 등)를 담당하는 별도의 직원 | `@Aspect` 어노테이션을 사용하여 정의 |
+| **핵심 관심사 (Core Concern)** | 애플리케이션의 주요 비즈니스 로직 | 손님 주문 받기, 음식 만들기, 서빙하기 | 서비스(Service) 계층, 컨트롤러(Controller) 계층의 주요 로직 |
+| **공통 관심사 (Cross-cutting Concern)** | 여러 핵심 관심사에 걸쳐 반복적으로 발생하는 기능 (로그, 보안, 트랜잭션 관리 등) | 로그 기록, 보안 확인, 주문-결제 묶음 처리 | 로깅, 인증/인가, 트랜잭션 관리 |
+| **Aspect (관점)** | 공통 관심사를 구현한 모듈 | 로그 기록 담당 직원, 보안 담당 직원 | `@Aspect` 어노테이션이 붙은 클래스 |
+| **Advice (조언/행동)** | Aspect가 실제로 수행하는 작업 (언제, 무엇을 할지 정의) | 로그 기록 직원이 기록하는 행위, 보안 담당Around`, `@AfterReturning`, `@AfterThrowing` 등의 어노테이션이 붙은 메서드 |
+| **Join Point (조인 포인트)** | Advice가 적용될 수 있는 핵심 로직의 특정 지점 (메서드 실행, 예외 발생 등) | 손님이 주문하는 시점, 음식을 만들기 시작하는 시점, 서빙이 완료되는 시점 | 메서드 실행 시점, 메서드 종료 시점, 예외 발생 시점 등 |
+| **Pointcut (포인트컷)** | Advice를 적용할 Join Point를 구체적으로 정의하는 규칙 (표현식 사용) | "모든 주문 관련 기능 실행 전", "특정 서빙 기능 실행 후" | `@Pointcut("execution(* com.example.service..*.*(..))")` 와 같은 표현식 |
+| **Weaving (위빙)** | Aspect를 핵심 로직 코드에 결합하는 과정 (AOP 컨테이너가 담당) | 실제로 직원이 해당 시점에 로그를 기록하거나 보안 검사를 수행하는 과정 | 컴파일 시 위빙, 클래스 로딩 시 위빙, 런타임 시 위빙 (스프링은 런타임 시 프록시 방식 주로 사용) |
 
-* Spring AOP
----
+<br />
+<br />
+<br />
+
+2. Spring AOP
 
 ```
 Spring AOP는 기본적으로 프록시 방식으로 동작한다.
+
 프록시 패턴이란 어떤 객체를 사용하고자 할 때,
 객체를 직접적으로 참조 하는 것이 아니라 해당 객체를 대행(대리, proxy)하는 객체를 통해 대상객체에 접근하는 방식을 말한다.
 
@@ -66,13 +60,16 @@ Spring AOP는 기본적으로 프록시 방식으로 동작한다.
 | **기능 지원**     | 기본적인 AOP 기능 제공, 트랜잭션, 보안 등과 통합      | 더 강력한 AOP 기능 제공, 복잡한 포인트컷 표현식과 다채로운 어드바이스 타입 지원 |
 | **서드파티 라이브러리** | Spring AOP는 Spring의 종속성으로 사용, 별도의 라이브러리 없음 | AspectJ는 독립적인 라이브러리로, Spring 외부에서도 사용할 수 있음 |
 
+<br />
+<br />
+<br />
 
-<br /><br /><br />
+3. 예시
 
-* 예시
----
+<br />
 
-1. LoggingAspect class
+`LoggingAspect class`
+
 ```java
 @Aspect
 @Component
@@ -88,9 +85,10 @@ public class LoggingAspect {
 }
 ```
 
-<br /><br />
+<br />
 
-2. @EnableAspectJAutoProxy 어노테이션
+`@EnableAspectJAutoProxy 어노테이션`
+
 ```java
 @SpringBootApplication
 @EnableAspectJAutoProxy /* @EnableAspectJAutoProxy 어노테이션을 추가하여 AspectJ AOP를 활성화 */
@@ -102,9 +100,10 @@ public class MyApplication {
 }
 ```
 
-<br /><br />
+<br />
 
-3. Service class
+`Service class`
+
 ```java
 @Service
 public class MyService {
@@ -115,9 +114,10 @@ public class MyService {
 }
 ```
 
-<br /><br />
+<br />
 
-4. Controller
+`Controller`
+
 ```java
 @RestController
 public class MyController {
@@ -136,6 +136,7 @@ public class MyController {
 }
 ```
 
+<br />
 <br />
 
 ```
