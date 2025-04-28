@@ -1,6 +1,7 @@
 # Controller에서 Parameter를 핸들링 하는 방법.
 
-<br /><br />
+<br />
+<br />
 
 ```
 Controller에서는 요청하는 Http의 Method에 따라,
@@ -9,7 +10,10 @@ Controller에서는 요청하는 Http의 Method에 따라,
 예시를 보며 알아보자.
 ```
 
-<br /><br /><br />
+<br />
+<br />
+<br />
+<br />
 
 1. Handling query parameters.(query string)
 
@@ -20,8 +24,6 @@ Controller에서는 요청하는 Http의 Method에 따라,
 (물론 DTO를 사용하여 필드와 Setter를 사용할 수도 있다.)
 ```
 
-<br />
-
 ```java
 @GetMapping("/api/users")
 public String getUser(@RequestParam Long id, @RequestParam String name) {
@@ -29,10 +31,12 @@ public String getUser(@RequestParam Long id, @RequestParam String name) {
 }
 ```
 
-<br /><br /><br />
+<br />
+<br />
+<br />
 
 2. Handling path variables.
-3. 
+
 ```
 URI의 일부를 변수로 사용할 때는 @PathVariable을 사용한다.
 예를 들어, http://localhost:8080/api/users/1에서 1은 사용자 ID일 수 있다.
@@ -41,8 +45,6 @@ URI의 일부를 변수로 사용할 때는 @PathVariable을 사용한다.
 https://github.com/codej625/java_spring_boot/blob/main/path_variable.md 에 상세히 정리 해놓음
 ```
 
-<br />
-
 ```java
 @GetMapping("/api/users/{id}")
 public String getUserById(@PathVariable Long id) {
@@ -50,7 +52,9 @@ public String getUserById(@PathVariable Long id) {
 }
 ```
 
-<br /><br /><br />
+<br />
+<br />
+<br />
 
 3. Handling request body.
 
@@ -59,20 +63,21 @@ HTTP 요청의 본문(body)에 JSON 형태로 데이터가 있을 때,
 @RequestBody를 사용하여 객체로 변환할 수 있다.
 ```
 
-<br />
-
 ```java
 @PostMapping("/api/users")
 public String createUser(@RequestBody User user) {
   // ... 메서드 내용
 }
 ```
+
 ```
 여기서 User는 요청 본문의 JSON 데이터를 자바 객체로 매핑할 클래스이다.
 혹은 Map<String, Object>, List<Map<String, Object>> 와 같이 맵이나 리스트로 매핑이 가능하다. 
 ```
 
-<br /><br /><br />
+<br />
+<br />
+<br />
 
 4. Handling HTTP request.
 
@@ -81,8 +86,6 @@ public String createUser(@RequestBody User user) {
 이 경우에는 HttpServletRequest를 매개변수로 사용한다.
 ```
 
-<br />
-
 ```java
 @GetMapping("/api/users")
 public String getUsers(HttpServletRequest request) {
@@ -90,7 +93,9 @@ public String getUsers(HttpServletRequest request) {
 }
 ```
 
-<br /><br /><br />
+<br />
+<br />
+<br />
 
 5. Handling form data.
 
@@ -101,8 +106,6 @@ public String getUsers(HttpServletRequest request) {
 User 객체로 변환하는 경우
 ```
 
-<br />
-
 ```java
 @PostMapping("/register")
 public String registerUser(@ModelAttribute User user) {
@@ -112,6 +115,7 @@ public String registerUser(@ModelAttribute User user) {
   // ... 메서드 내용
 }
 ```
+
 ```
 이 경우 User 클래스는 폼 데이터의 각 필드와 일치하는 필드들을 가지고 있어야 한다.
 
@@ -131,7 +135,8 @@ public String showRegistrationForm(Model model) {
   // ... 메서드 내용
 }
 ```
+
 ```
-위와 같이 Model 객체에 담아 뷰(View)에서 객체를
-사용하는 것도 가능하다.
+위와 같이 Model 객체에 담아 뷰(View)에서,
+객체를 사용하는 것도 가능하다.
 ```
