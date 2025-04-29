@@ -54,8 +54,6 @@ Game이나 Movie 클래스가 이를 구현하여 자신만의 play() 메서드�
 Circle, Square 같은 구체적인 클래스는 이 메서드를 자신의 방식으로 구현한다.
 ```
 
-<br />
-
 ```
 "인터페이스"는 공통된 기능의 계약을 정의하며, 구현을 강제한다.
 (자바 1.8에서부터 디폴트 메서드와, 정적 메서드를 지원) 
@@ -111,162 +109,174 @@ public void sendNotification(String type, String message) {
 
 <br />
 
-`공통 인터페이스 정의`
+`패키지 구조`
+
+```
+notification-system/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/example/notification/
+│   │   │       ├── NotificationApplication.java
+│   │   │       ├── controller/
+│   │   │       │   └── NotificationController.java
+│   │   │       ├── exception/
+│   │   │       │   └── GlobalExceptionHandler.java
+│   │   │       ├── service/
+│   │   │       │   ├── NotificationHandler.java
+│   │   │       │   ├── NotificationService.java
+│   │   │       │   └── impl/
+│   │   │       │       ├── EmailNotificationService.java
+│   │   │       │       ├── SmsNotificationService.java
+│   │   │       │       └── PushNotificationService.java
+│   │   └── resources/
+│   │       └── application.properties
+├── .gitignore
+├── README.md
+├── pom.xml
+```
+
+<br />
+<br />
+<br />
+
+3. 애플리케이션 진입점
 
 ```java
-// NotificationService.java
+// Spring Boot 애플리케이션의 메인 클래스
+
+package com.example.notification;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class NotificationApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(NotificationApplication.class, args);
+    }
+}
+```
+
+<br >
+<br >
+<br >
+
+4. 공통 인터페이스
+
+```java
+// 알림 서비스의 인터페이스로, `send` 메서드만 정의
+
+package com.example.notification.service;
 
 public interface NotificationService {
-    // 이 서비스가 처리하는 알림 타입을 반환하는 메서드 (전략 선택에 사용)
-    String getType();
-
-    // 알림을 보내는 메서드
     void send(String message);
 }
 ```
 
-<br />
+<br >
+<br >
+<br >
 
-`구체적인 전략 구현 클래스`
+5. 전략 구현 클래스
 
 ```java
-// EmailNotificationService.java
+// 각 알림 타입(`email`, `sms`, `push`)에 대한 구현체로, `@Service` 어노테이션에 빈 이름을 지정
 
+package com.example.notification.service.impl;
+
+import com.example.notification.service.NotificationService;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("email")
 public class EmailNotificationService implements NotificationService {
-
-    @Override
-    public String getType() {
-        return "email"; // 이 전략은 'email' 타입을 처리한다.
-    }
-
     @Override
     public void send(String message) {
         System.out.println("Sending email notification: " + message);
-        // 실제 이메일 발송 로직
     }
 }
-
-// 각 알림 타입별 구현 클래스를 만들고 @Service 어노테이션을 붙여 Spring 빈으로 자동 등록되게 한다.
 ```
 
-```java
-// SmsNotificationService.java
+<br >
 
+```java
+package com.example.notification.service.impl;
+
+import com.example.notification.service.NotificationService;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("sms")
 public class SmsNotificationService implements NotificationService {
-
-    @Override
-    public String getType() {
-        return "sms"; // 이 전략은 'sms' 타입을 처리한다.
-    }
-
     @Override
     public void send(String message) {
         System.out.println("Sending SMS notification: " + message);
-        // 실제 SMS 발송 로직
     }
 }
 ```
 
-```java
-// PushNotificationService.java
+<br />
 
+```java
+package com.example.notification.service.impl;
+
+import com.example.notification.service.NotificationService;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("push")
 public class PushNotificationService implements NotificationService {
-
-    @Override
-    public String getType() {
-        return "push"; // 이 전략은 'push' 타입을 처리한다.
-    }
-
     @Override
     public void send(String message) {
         System.out.println("Sending Push notification: " + message);
-        // 실제 Push 알림 발송 로직
     }
 }
 ```
 
-<br />
+<br >
+<br >
+<br >
 
-`컨텍스트/핸들러 클래스`
-
-```
-적절한 NotificationService 구현체를 찾아 실행하는 클래스이다.
-
-Spring은 인터페이스(NotificationService)를 구현하는 모든 빈을 자동으로 주입해 줄 수 있다.
-
-여기서는 Map 형태로 주입받아 getType()으로 키를 만들고, 해당 서비스를 찾아 사용한다.
-```
+6. 핸들러 클래스
 
 ```java
-// NotificationHandler.java
-import org.springframework.beans.factory.annotation.Autowired;
+// 알림 타입에 따라 적절한 서비스를 찾아 실행한다.
+
+package com.example.notification.service;
+
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-@Component // 또는 @Service 등 Spring 빈으로 등록
+@Component
 public class NotificationHandler {
 
-    // NotificationService 인터페이스를 구현하는 모든 빈을 List로 주입받음
-    @Autowired
-    private List<NotificationService> notificationServices;
+    private final Map<String, NotificationService> notificationServices;
 
-    // 알림 타입(String)을 키로, 해당 NotificationService 빈을 값으로 가지는 Map
-    private Map<String, NotificationService> notificationServiceMap;
-
-    // 의존성 주입이 완료된 후 Map을 초기화 (Spring 4.3 이후로는 생성자 주입 시 @Autowired 생략 가능)
-    @PostConstruct
-    public void init() {
-        notificationServiceMap = new HashMap<>();
-        for (NotificationService service : notificationServices) {
-            notificationServiceMap.put(service.getType(), service);
-        }
+    public NotificationHandler(Map<String, NotificationService> notificationServices) {
+        this.notificationServices = notificationServices;
     }
 
-    /**
-     * 주어진 타입에 해당하는 NotificationService를 찾아 알림을 보낸다.
-     * @param type 알림 타입 ex) "email", "sms", "push"
-     * @param message 보낼 메시지
-     */
     public void sendNotification(String type, String message) {
-        NotificationService service = notificationServiceMap.get(type);
-
+        NotificationService service = notificationServices.get(type);
         if (service == null) {
             throw new IllegalArgumentException("Unsupported notification type: " + type);
         }
-
-        service.send(message); // 찾은 서비스의 send 메서드 실행
+        service.send(message);
     }
 }
 ```
 
-<br />
-<br />
-<br />
+<br >
+<br >
+<br >
 
-3. 사용하기
-
-```
-이제 다른 서비스나 컨트롤러에서,
-NotificationHandler를 주입받아 사용하면 된다.
-```
+7. 컨트롤러
 
 ```java
-// SomeController.java
+// REST API 엔드포인트를 제공하며, 예외 처리는 전역 핸들러에 위임
 
-import org.springframework.beans.factory.annotation.Autowired;
+package com.example.notification.controller;
+
+import com.example.notification.service.NotificationHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -274,17 +284,42 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class NotificationController {
 
-    @Autowired
-    private NotificationHandler notificationHandler;
+    private final NotificationHandler notificationHandler;
+
+    public NotificationController(NotificationHandler notificationHandler) {
+        this.notificationHandler = notificationHandler;
+    }
 
     @GetMapping("/send")
     public String send(@RequestParam String type, @RequestParam String message) {
-        try {
-            notificationHandler.sendNotification(type, message);
-            return "Notification sent (" + type + ")";
-        } catch (IllegalArgumentException e) {
-            return "Error: " + e.getMessage();
-        }
+        notificationHandler.sendNotification(type, message);
+        return "Notification sent (" + type + ")";
+    }
+}
+```
+
+<br >
+<br >
+<br >
+
+8. 전역 예외 처리
+
+```java
+// `IllegalArgumentException`을 전역적으로 처리
+
+package com.example.notification.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+        return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
 ```
